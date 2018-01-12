@@ -22,6 +22,15 @@ $factory->define(App\User::class, function (Faker $faker) {
     ];
 });
 
+$factory->define(App\Channel::class, function ($faker) {
+    $name = $faker->word;
+
+    return [
+        'name' => $name,
+        'slug' => $name
+    ];
+});
+
 $factory->define(App\Thread::class, function ($faker) {
     return [
         'user_id' => function () {
@@ -32,15 +41,6 @@ $factory->define(App\Thread::class, function ($faker) {
         },
         'title' => $faker->sentence,
         'body' => $faker->paragraph
-    ];
-});
-
-$factory->define(App\Channel::class, function ($faker) {
-    $name = $faker->word;
-
-    return [
-        'name' => $name,
-        'slug' => $name
     ];
 });
 
