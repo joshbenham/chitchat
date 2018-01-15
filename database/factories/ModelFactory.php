@@ -1,7 +1,5 @@
 <?php
 
-use Faker\Generator as Faker;
-
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -13,7 +11,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(App\User::class, function ($faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
@@ -46,11 +44,11 @@ $factory->define(App\Thread::class, function ($faker) {
 
 $factory->define(App\Reply::class, function ($faker) {
     return [
-        'user_id' => function () {
-            return create('App\Thread')->id;
-        },
         'thread_id' => function () {
-            return create('App\User')->id;
+            return factory('App\Thread')->create()->id;
+        },
+        'user_id' => function () {
+            return factory('App\User')->create()->id;
         },
         'body' => $faker->paragraph
     ];
