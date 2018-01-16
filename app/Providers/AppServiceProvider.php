@@ -18,7 +18,11 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         \View::composer('*', function ($view) {
-            $view->with('channels', Channel::all());
+            $channels = \Cache::rememberForever('channel', function () {
+                return Channel::all();
+            });
+
+            $view->with('channels', $channels);
         });
     }
 
@@ -29,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->isLocal()) {
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
     }
 }
