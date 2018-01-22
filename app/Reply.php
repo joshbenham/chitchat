@@ -14,6 +14,19 @@ class Reply extends Model
 
     protected $appends = ['isFavourited', 'favouritesCount'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($reply) {
+            $reply->thread->increment('replies_count');
+        });
+
+        static::deleted(function ($reply) {
+            $reply->thread->decrement('replies_count');
+        });
+    }
+
     public function path()
     {
         return $this->thread->path() . "#reply-{$this->id}";
