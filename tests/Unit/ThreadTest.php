@@ -64,7 +64,7 @@ class ThreadTest extends TestCase
 
         $this->assertEquals(
             1,
-            $thread->subscription()->where('user_id', $userId)->count()
+            $thread->subscriptions()->where('user_id', $userId)->count()
         );
     }
 
@@ -79,7 +79,7 @@ class ThreadTest extends TestCase
 
         $this->assertCount(
             0,
-            $thread->subscription
+            $thread->subscriptions
         );
     }
 }
