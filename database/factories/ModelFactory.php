@@ -45,11 +45,23 @@ $factory->define(App\Thread::class, function ($faker) {
 $factory->define(App\Reply::class, function ($faker) {
     return [
         'thread_id' => function () {
-            return factory('App\Thread')->create()->id;
+            return create('App\Thread')->id;
         },
         'user_id' => function () {
-            return factory('App\User')->create()->id;
+            return create('App\User')->id;
         },
         'body' => $faker->paragraph
+    ];
+});
+
+$factory->define(\Illuminate\Notifications\DatabaseNotification::class, function ($faker) {
+    return [
+        'id' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
+        'type' => 'App\Notifications\ThreadWasUpdated',
+        'notifiable_id' => function () {
+            return auth()->id() ?: create('App\User')->id();
+        },
+        'notifiable_type' => 'App\User',
+        'data' => ['foo' => 'bar']
     ];
 });
