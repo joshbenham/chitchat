@@ -8,6 +8,9 @@ use App\Thread;
 
 class ReplyController extends Controller
 {
+    /**
+     * Create a new ReplyController instance.
+     */
     public function __construct()
     {
         $this->middleware('auth', ['except' => 'index']);
@@ -17,7 +20,7 @@ class ReplyController extends Controller
      * Display a listing of the resource.
      *
      * @param  integer $channelId
-     * @param  Thread  $thread
+     * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
     public function index($channelId, Thread $thread)
@@ -26,21 +29,11 @@ class ReplyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  integer $channelId
-     * @param  Thread $thread
-     * @param  CreatePostRequest $form
+     * @param  \App\Thread $thread
+     * @param  \App\Requests\CreatePostRequest $form
      * @return \Illuminate\Http\Response
      */
     public function store($channelId, Thread $thread, CreatePostRequest $form)
@@ -52,44 +45,18 @@ class ReplyController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Reply  $reply
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Reply $reply)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Reply  $reply
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Reply $reply)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  Reply  $reply
+     * @param  \App\Reply  $reply
      * @return \Illuminate\Http\Response
      */
     public function update(Reply $reply)
     {
         $this->authorize('update', $reply);
 
-        try {
-            $this->validate(request(), ['body' => 'required|spamfree']);
+        request()->validate(['body' => 'required|spamfree']);
 
-            $reply->update(request(['body']));
-        } catch (\Exception $e) {
-            return response('Sorry, your reply could not be saved at this time.', 422);
-        }
+        $reply->update(request(['body']));
     }
 
     /**

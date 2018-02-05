@@ -2,21 +2,10 @@
 
 namespace App\Filters;
 
-use Illuminate\Http\Request;
-
 abstract class Filters
 {
-    protected $request;
     protected $builder;
     protected $filters = [];
-
-    /**
-     * @param Request $request
-     */
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
 
     /**
      * @param Builder $builder
@@ -40,6 +29,6 @@ abstract class Filters
      */
     public function getFilters()
     {
-        return $this->request->only($this->filters);
+        return request()->only($this->filters);
     }
 }
