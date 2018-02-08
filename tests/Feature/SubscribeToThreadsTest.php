@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class SubscribeToThreads extends TestCase
+class SubscribeToThreadsTest extends TestCase
 {
     use DatabaseMigrations;
 
