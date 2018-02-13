@@ -37,6 +37,8 @@ $factory->define(App\Channel::class, function ($faker) {
 });
 
 $factory->define(App\Thread::class, function ($faker) {
+    $title = $faker->sentence;
+
     return [
         'user_id' => function () {
             return create('App\User')->id;
@@ -44,9 +46,10 @@ $factory->define(App\Thread::class, function ($faker) {
         'channel_id' => function () {
             return create('App\Channel')->id;
         },
-        'title' => $faker->sentence,
+        'title' => $title,
         'body' => $faker->paragraph,
-        'visits' => 0
+        'visits' => 0,
+        'slug' => str_slug($title)
     ];
 });
 
