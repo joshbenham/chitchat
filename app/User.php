@@ -57,20 +57,25 @@ class User extends Authenticatable
         return $this->hasMany(Activity::class);
     }
 
-    public function read($thread)
-    {
-        cache()->forever(
-            $this->visitedThreadCacheKey($thread),
-            Carbon::now()
-        );
-    }
-
     public function confirm()
     {
         $this->confirmed = true;
         $this->confirmation_token = null;
 
         $this->save();
+    }
+
+    public function isAdmin()
+    {
+        return in_array($this->name, ['JohnDoe', 'JaneDoe']);
+    }
+
+    public function read($thread)
+    {
+        cache()->forever(
+            $this->visitedThreadCacheKey($thread),
+            Carbon::now()
+        );
     }
 
     public function getAvatarPathAttribute($avatar)

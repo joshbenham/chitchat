@@ -5,20 +5,20 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class LockedThreadsTest extends TestCase
+class LockedThreads extends TestCase
 {
     use DatabaseMigrations;
 
     /** @test */
     public function non_administrators_may_not_lock_threads()
     {
-        $this->withExceptionHandling();
-
         $this->signIn();
 
         $thread = create('App\Thread', ['user_id' => auth()->id()]);
 
-        $this->post(route('locked-thread.store', $thread))->assertStatus(403);
+        $this->patch($thread->path(), [
+            'locked' => true
+        ])->assertStatus(403);
 
         $this->assertFalse(!!$thread->fresh()->locked);
     }
@@ -30,7 +30,9 @@ class LockedThreadsTest extends TestCase
 
         $thread = create('App\Thread', ['user_id' => auth()->id()]);
 
-        $this->post(route('locked-thread.store', $thread));
+        $this->post(route('locked-thread.store'), [
+            'locked' => true
+        ]);
 
         $this->assertTrue(!!$thread->fresh()->locked);
     }
