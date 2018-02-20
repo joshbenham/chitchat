@@ -14,6 +14,17 @@ class LockedThreadController extends Controller
      */
     public function store(Thread $thread)
     {
-        $thread->lock();
+        $thread->update(['locked' => true]);
+    }
+
+    /**
+     * Delete a resource from storage.
+     *
+     * @param  \App\Thread  $thread
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Thread $thread)
+    {
+        $thread->update(['locked' => false]);
     }
 }
