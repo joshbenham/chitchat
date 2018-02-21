@@ -102,6 +102,25 @@ class ThreadController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  $channelId
+     * @param  \App\Thread  $thread
+     * @return \Illuminate\Http\Response
+     */
+    public function update($channel, Thread $thread)
+    {
+        $this->authorize('update', $thread);
+
+        $thread->update(request()->validate([
+            'title' => 'required|spamfree',
+            'body' => 'required|spamfree'
+        ]));
+
+        return $thread;
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Thread  $thread
